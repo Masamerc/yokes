@@ -1,3 +1,11 @@
 <h1>YOKES</h1>
 
-<script>alert('works')</script>
+<ul id="zen"></ul>
+
+<script>
+ 
+  fetch("https://api.github.com/zen")
+  .then(response => response.json())
+  .then(data => console.log(data))
+  
+</script>

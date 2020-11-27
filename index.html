@@ -3,9 +3,21 @@
 <ul id="zen"></ul>
 
 <script>
- 
-  fetch("https://api.github.com/zen")
-  .then(response => response.json())
-  .then(data => console.log(data))
+  const myList = document.querySelector("zen")
   
+  function getZen() {
+   
+   var el = document.createElement('li')
+   
+   fetch("https://api.github.com/zen")
+    .then(response => response.text())
+    .then(data => el.innerHTML = data)
+   
+   myList.appendChild(el)
+  }
+  
+ for (i=0;i < 3; i++) {
+  getZen()
+ }
+ 
 </script>

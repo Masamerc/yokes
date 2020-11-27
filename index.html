@@ -3,10 +3,9 @@
 <ul id="zen"></ul>
 
 <script>
-  const myList = document.querySelector("zen")
+  const myList = document.querySelector("#zen")
   
   function getZen() {
-   
    var el = document.createElement('li')
    
    fetch("https://api.github.com/zen")

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,30 +8,39 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <title>Document</title>
 </head>
+
 <body>
-  
-<body>
-  <h1>YOKES</h1>
-  
-  <ul id="zen"></ul>
-</body>
+
+  <body>
+
+    <div class="container">
+      <div class="col">
+        <div class="row">
+          <h1 class="mt-3">YOKES</h1>
+          <ul id="zen"></ul>
+        </div>
+      </div>
+    </div>
+
+  </body>
 
   <script>
     const myList = document.querySelector("#zen")
-    
+
     function getZen() {
-     var el = document.createElement('li')
-     
-     fetch("https://api.github.com/zen")
-      .then(response => response.text())
-      .then(data => el.innerHTML = data)
-     
-     myList.appendChild(el)
+      var el = document.createElement('li')
+
+      fetch("https://api.github.com/zen")
+        .then(response => response.text())
+        .then(data => el.innerHTML = data)
+
+      myList.appendChild(el)
     }
-    
-   for (i=0;i < 3; i++) {
-    getZen()
-   }
-   
+
+    for (i = 0; i < 3; i++) {
+      getZen()
+    }
+
   </script>
+
 </html>

@@ -97,6 +97,7 @@ function drawHBar(elem) {
                 xAxes: [{
                     ticks: {
                         beginAtZero: true,
+                        max: 100
                     }
                 }]
             }

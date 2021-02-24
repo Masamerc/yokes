@@ -1,5 +1,5 @@
 # yokes
 
 ## Things to test
-- [ ] Fetch local .json dataset
-- [ ] use bootstrap
+- [ ] dynamically generate bar chart
+- [ ] highlight timestamps => Link to timestamped url 

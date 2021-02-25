@@ -8,32 +8,71 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-  <script src="hBar.js"></script>
+  <script src="customCharts.js"></script>
 
   <title>Document</title>
 </head>
 
-<body>
-  <div class="card-deck">
-    <div class="card">
-      <div class="card-body">
-        <div class="card-block">
-          <canvas id="topChart"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="card-deck">
-    <div class="card">
-      <div class="card-body">
-        <div class="card-block">
-          <canvas id="horizontalChart"></canvas>
+<body>
+  <div class="container-fluids" style="padding: 50px;">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h1>Title Logo ETC</h1>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="cards-holder">
+
+
+    <div class="card-deck" id="to-vanish">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-block">
+            <p>
+              Description n Stuff
+              -> Delete once button is clicked
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-deck" id="to-vanish">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-block">
+            <input class="form-control" name='character' text="URL">
+            <button id="redirect" class="btn btn-primary" type="submit"
+              style="background-color: red; border-color: silver;">Go</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-deck">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-block">
+            <canvas id="topChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-deck">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-block">
+            <canvas id="horizontalChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-holder"></div>
   </div>
 
 </body>
@@ -84,8 +123,14 @@
   drawHBar(horizontalChart)
 
   var topChart = document.getElementById('topChart').getContext('2d')
-  topChart.canvas.height = 60;
+  topChart.canvas.height = 40;
   drawTopChart(topChart)
+
+
+  document.getElementById("redirect").onclick = function () {
+    var x = document.getElementById("to-vanish");
+    x.style.display = "none";
+  };
 
 
 </script>

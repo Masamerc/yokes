@@ -1,28 +1,19 @@
-function drawTopChart(elem) {
-
-    ts = {
-        5:1,
-        12:3,
-        223:4
-    }
+function drawTopChart(elem, videoLength, data) {
 
     records = []
 
-    const vidLength = 360
+    for (let i=0; i<=videoLength; i++){
+        let record = {timestamp:i, comment_count:0}
 
-    for (let i=0; i<=vidLength; i++){
-        let record = {timestamp:i, comments:0}
-
-        if (i in ts) {
-            record.comments = ts[i] 
+        if (i in data) {
+            record.comment_count = data[i] 
         }
         records.push(record)
     }
 
-    
+
     labels = []
     comments = []
-
 
     for (record of records) {
         let date = new Date(null)
@@ -30,15 +21,13 @@ function drawTopChart(elem) {
         var result = date.toISOString().substr(11, 8);
 
         labels.push(result)
-        comments.push(record.comments)
-        console.log(record)
+        comments.push(record.comment_count)
     }
 
     
     chart_data = []
 
     for (let i=0; i<=labels.length; i++){
-        console.log('looping')
         chart_data.push({
             t: labels[i],
             y: comments[i]
@@ -74,6 +63,7 @@ function drawTopChart(elem) {
 
     return myChart
 }
+
 
 function drawHBar(elem) {
     var myChart = new Chart(elem, {

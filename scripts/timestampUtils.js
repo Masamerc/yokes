@@ -26,5 +26,3 @@ const sortByKey = (array) => {
                 return ((x < y) ? -1 : ((x > y) ? 1 : 0));       
     });    
 }
-
-

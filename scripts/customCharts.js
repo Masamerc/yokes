@@ -65,14 +65,13 @@ function drawTopChart(elem, videoLength, data) {
 }
 
 
-function drawHBar(elem) {
+function drawHBar(elem, comment_count) {
     var myChart = new Chart(elem, {
         type: 'horizontalBar',
         data: {
             labels: ['Comments'],
             datasets: [{
-                label: '# of Comments',
-                data: [12],
+                data: [comment_count],
                 backgroundColor: [
                     'rgba(255, 99, 132)'
                 ],
@@ -87,7 +86,7 @@ function drawHBar(elem) {
                 xAxes: [{
                     ticks: {
                         beginAtZero: true,
-                        max: 100
+                        max: 10
                     }
                 }]
             }

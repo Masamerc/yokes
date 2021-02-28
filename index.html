@@ -13,6 +13,7 @@
     <script src="scripts/customCharts.js"></script>
     <script src="scripts/timestampUtils.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
 
     <title>Momenteur</title>
   </head>
@@ -22,8 +23,8 @@
       <div class="row">
         <div class="col">
           <div class="card">
-            <div class="card-body" style="background-color: red; color:">
-              <h1 style="color:white;">Momenteur</h1>
+            <div class="card-body" style="background-color: red; color: ">
+              <h1 style="color: white">Momenteur</h1>
             </div>
           </div>
         </div>
@@ -59,8 +60,7 @@
         </div>
       </span>
 
-
-      <span id="to-appear" style="display: none;">
+      <span id="to-appear" style="display: none">
         <div class="card-deck">
           <div class="card">
             <div class="card-body">
@@ -70,7 +70,7 @@
             </div>
           </div>
         </div>
-      </span>
+      
 
       <div class="card-deck">
         <div class="card">
@@ -82,17 +82,8 @@
         </div>
       </div>
 
-      <div class="card-deck">
-        <div class="card">
-          <div class="card-body">
-            <div class="card-block">
-              <canvas id="horizontalChart"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="cards-holder"></div>
+    </span>
     </div>
   </body>
 
@@ -100,40 +91,70 @@
     const myList = document.querySelector("#zen");
     const cards = $(".cards-holder");
 
-    function addCardBody(comment, like_count) {
-      const cardBlock1 = `<div class="card" style="padding-left:10px"> 
-        <div class="card-body" style="padding: 10px">
-          <div class="card-block"> 
-            <p>${comment}</p>
-        </div> 
-        </div>
-    </div>`;
 
-      const cardBlock2 = `<div class="card" style="padding-left:10px"> 
-        <div class="card-body" style="padding: 10px">
-          <div class="card-block"> 
-            <p>${like_count}</p>
-        </div> 
-        </div>
-    </div>`;
+    class CardBlock {
+        constructor(comment, url, comment_count, chartId) {
+            this.chartId = chartId
+            this.comment_count = comment_count
 
-      const deck = `<div class="card-deck" id="main">${cardBlock1}${cardBlock2}</div>`;
+            this.html = `<div class="card" style="padding-left:10px;">
+                        <div class="card-body" style="padding: 10px">
+                        <div class="card-block">
+                            <h4>Count: ${comment_count}</h4>
+                            <hr></hr>
+                            <p>${comment}</p>
+                            <button
+                            class="btn btn-primary"
+                            type="submit"
+                            style="background-color: #FA8072; border-color: silver"
+                            ><a href="${url}"style="color:white;font-weight:bold;" target="_blank">Link to the Moment</a></button>
+
+                        </div>
+                        </div>
+                        </div>`;
+
+            this.hbar = `<div class="card" style="padding-left:10px;">
+                        <div class="card-body" style="padding: 10px">
+                        <div class="card-block">
+                        <canvas id="${this.chartId}"></canvas>
+                        </div>
+                        </div>
+                        </div>`
+                    }
+            }
+
+
+    function addCards(comment, comment_count, url, chartId) {
+      const c = new CardBlock(comment, url, comment_count, chartId);
+      const deck = `<div class="card-deck" id="main" style="padding-bottom:10px;padding-top:10px">${c.html}${c.hbar}</div>`;
       return deck;
     }
-    
+
+    function appendCards(response) {
+      for (record of response.data) {
+        let chartId = uuid.v4()
+        cards.append(
+          addCards(
+            record.comments.slice(0, 3).join("</br>"),
+            record.comment_count,
+            record.url,
+            chartId
+          )
+        );
+
+        let horizontalChart = document.getElementById(chartId).getContext("2d");
+        horizontalChart.canvas.height = 40;
+        drawHBar(horizontalChart, record.comment_count);
+      }
+    }
 
     async function getData() {
       const response = await axios.get(
         "https://momenteur.herokuapp.com/testing/videos"
       );
-      const data = response.data;
-    //   const data = await response.json();
+      const data = await response.data;
 
-      for (record of response.data) {
-        cards.append(
-          addCardBody(record.comments.join("\n"), record.comment_count)
-        );
-      }
+      appendCards(response);
 
       //// actual data for top chart ////
       const sorted = sortByKey(transformRecords(data));
@@ -153,21 +174,16 @@
       drawTopChart(topChart, videoLength, topChartData);
     }
 
-    var horizontalChart = document
-      .getElementById("horizontalChart")
-      .getContext("2d");
-    horizontalChart.canvas.height = 40;
-    drawHBar(horizontalChart);
 
+
+    //// Button Click ////
     document.getElementById("redirect").onclick = function () {
-      // location.reload()
       var toVanish = document.getElementById("to-vanish");
       toVanish.style.display = "none";
       getData();
-      var toAppear = document.getElementById("to-appear")
+      var toAppear = document.getElementById("to-appear");
       toAppear.style.display = "block";
     };
-
   </script>
-  <script src="scripts/app.js"></script>
+  <script src="scripts/fetchData.js"></script>
 </html>
